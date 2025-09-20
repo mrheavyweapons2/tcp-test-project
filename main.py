@@ -32,6 +32,7 @@ def import_role():
     try:
         role = int(role)
     except ValueError:
+        #if a valueError is spotted, retry, then return to main
         print("Failure, please try again.")
         import_role()
         return
@@ -39,6 +40,7 @@ def import_role():
     if (((role >= 1) and (role <=4)) == False):
         print("Failure, please try again.")
         import_role()
+        return
 
     #if statement options
     if role == 1:
