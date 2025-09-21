@@ -7,6 +7,7 @@ Description: Program module that functions as a basic LAN server host for TCP.
 
 #neccessary imports
 import socket
+import threading
 
 #class that serves as the core piece of the server
 class lanServer:
@@ -35,9 +36,34 @@ class lanServer:
         #return the IP
         return ip
     
+    #function for handling client operations
+    def client_handler(self, connection, address):
+        #informs the server of the connection
+        print(f"[LAN SERVER] Connection detected from {address}")
+        #begins to take data
+        with connection:
+            while True:
+                #takes data
+                data = connection.recv(1024)
+                #if data errors, break
+                if not data:
+                    break
+                #print the data recieved and send it back out
+                print(f"[LAN SERVER] Recieved from {address}: {data.decode()}")
+                connection.sendall(data)
+
+
+    
     #function to start the program (execute in main)
     def start(self):
         #setting the server to listen into the server (and not another server)
         self.server_socket.bind((self.host, self.port))
         self.server_socket.listen()
         print(f"[LAN SERVER] Listening on {self.host}:{self.port}")
+        #while true loop for the server to run on
+        while True:
+            #detecting connections from clients and starting a thread for them
+            connection, address = self.server_socket.accept()
+            client_line = threading.Thread(target=client_handler, args=(self, connection, address))
+            client_line.start()
+        
