@@ -44,6 +44,7 @@ class lanClient:
                     case _:
                         #send a message to the server
                         self.client_socket.sendall(message.encode())
+                        print("[LAN CLIENT] Message Sent")
                         #wait for a response
                         response = self.client_socket.recv(1024)
                         print(f"[LAN CLIENT] Received: {response.decode()}")
