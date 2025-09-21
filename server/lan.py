@@ -58,13 +58,16 @@ class lanServer:
     #function to start the program (execute in main)
     def start(self):
         #setting the server to listen into the server (and not another server)
-        self.server_socket.bind((self.host, self.port))
+        self.server_socket.bind(("0.0.0.0", self.port))
         self.server_socket.listen()
         print(f"[LAN SERVER] Listening on {self.host}:{self.port}")
         #while true loop for the server to run on
         while True:
             #detecting connections from clients and starting a thread for them
+            print(f"[LAN SERVER] Waiting for connection...")
             connection, address = self.server_socket.accept()
+            print(f"[LAN SERVER] Connection accepted from {address}")
             client_line = threading.Thread(target=self.client_handler, args=(connection, address))
             client_line.start()
+            print(f"[LAN SERVER] Started client thread for {address}")
         

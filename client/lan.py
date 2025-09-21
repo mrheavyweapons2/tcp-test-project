@@ -47,6 +47,8 @@ class lanClient:
                         #wait for a response
                         response = self.client_socket.recv(1024)
                         print(f"[LAN CLIENT] Received: {response.decode()}")
+        except Exception as e:
+            print(f"[LAN CLIENT] Connection failed: {e}")
         #when the code breaks, it shuts down the socket
         finally:
             self.client_socket.close()
