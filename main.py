@@ -53,6 +53,7 @@ def import_role():
     elif role == 3:
         print("Success, Beginning Client Setup on LAN\n")
         mod = importlib.import_module("client.lan")
+        module = mod.lanClient()
     elif role == 4:
         print("Failure, this feature is currently unavailable")
         #print("Success, Beginning Client Setup on WAN\n")

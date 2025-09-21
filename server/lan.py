@@ -2,7 +2,8 @@
 File: server/lan.py
 Author: Jeremiah Nairn
 
-Description: Program module that functions as a basic LAN server host for TCP.
+Description: Program module that functions as a basic LAN server host for TCP. Currently, it
+is supposed to only support a TCP handshake, however that may change in the future.
 """
 
 #neccessary imports
