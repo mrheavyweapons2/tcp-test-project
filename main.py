@@ -44,19 +44,19 @@ def import_role():
 
     #if statement options
     if role == 1:
-        print("Success, Beginning Server Setup on LAN")
+        print("Success, Beginning Server Setup on LAN\n")
         mod = importlib.import_module("server.lan")
-        module = mod.lanServer
+        module = mod.lanServer()
     elif role == 2:
         print("Failure, this feature is currently unavailable")
-        #print("Success, Beginning Server Setup on WAN")
+        #print("Success, Beginning Server Setup on WAN\n")
         #mod = importlib.import_module("server.wan")
     elif role == 3:
-        print("Success, Beginning Client Setup on LAN")
+        print("Success, Beginning Client Setup on LAN\n")
         mod = importlib.import_module("client.lan")
     elif role == 4:
         print("Failure, this feature is currently unavailable")
-        #print("Success, Beginning Client Setup on WAN")
+        #print("Success, Beginning Client Setup on WAN\n")
         #mod = importlib.import_module("client.wan")
     #return to main
     return
@@ -66,6 +66,8 @@ def main():
     print("Beginning Setup")
     #prompt the user for their role and import the correct module via dynamic importing
     import_role()
+    #start the module
+    module.start()
     
     
 
