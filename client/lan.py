@@ -30,7 +30,7 @@ class lanClient:
             #where the magic happens
             while True:
                 #prompt for a message
-                message = input("Enter a message or command")
+                message = input("Enter a message or command: ")
                 #case statments to recognize commands
                 match message.lower():
                     #prints a list of commands

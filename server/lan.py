@@ -65,6 +65,6 @@ class lanServer:
         while True:
             #detecting connections from clients and starting a thread for them
             connection, address = self.server_socket.accept()
-            client_line = threading.Thread(target=client_handler, args=(self, connection, address))
+            client_line = threading.Thread(target=self.client_handler, args=(connection, address))
             client_line.start()
         
