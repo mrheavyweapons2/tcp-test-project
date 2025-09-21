@@ -2,13 +2,13 @@
 File: main.py
 Author: Jeremiah Nairn
 
-Description: Foundation for the program. 
+Description: Foundation for the program. Sets up the host to the decided role, and allows it to
+operate as such. 
 """
 
 #neccessary imports
 import importlib
 import threading
-import socket
 
 ###GOALS:
 #1. Keep the code as clean as possible (obviously)
@@ -45,25 +45,28 @@ def import_role():
     #if statement options
     if role == 1:
         print("Success, Beginning Server Setup on LAN")
-        module = importlib.import_module("server.lan")
+        mod = importlib.import_module("server.lan")
+        module = mod.lanServer
     elif role == 2:
-        print("Success, Beginning Server Setup on WAN")
-        module = importlib.import_module("server.wan")
+        print("Failure, this feature is currently unavailable")
+        #print("Success, Beginning Server Setup on WAN")
+        #mod = importlib.import_module("server.wan")
     elif role == 3:
         print("Success, Beginning Client Setup on LAN")
-        module = importlib.import_module("client.lan")
+        mod = importlib.import_module("client.lan")
     elif role == 4:
-        print("Success, Beginning Client Setup on WAN")
-        module = importlib.import_module("client.wan")
+        print("Failure, this feature is currently unavailable")
+        #print("Success, Beginning Client Setup on WAN")
+        #mod = importlib.import_module("client.wan")
     #return to main
     return
 
 #main function (where foundational code should go)
 def main():
     print("Beginning Setup")
-    #prompt the user for their role
-    #import it via dynamic importing
+    #prompt the user for their role and import the correct module via dynamic importing
     import_role()
+    
     
 
 #execute main
