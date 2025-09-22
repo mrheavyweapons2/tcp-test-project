@@ -35,8 +35,8 @@ class lanClient:
                 match message.lower():
                     #prints a list of commands
                     case "cmds":
-                        print("\ncmds  || Show Commands")
-                        print("quit || Close the client")
+                        print("\ncmds || Show Commands")
+                        print("quit || Close the client\n")
                     #quits the client
                     case "quit":
                         break
