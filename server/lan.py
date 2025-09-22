@@ -41,17 +41,29 @@ class lanServer:
     def client_handler(self, connection, address):
         #informs the server of the connection
         print(f"[LAN SERVER] Connection detected from {address}")
-        #begins to take data
-        with connection:
-            while True:
-                #takes data
-                data = connection.recv(1024)
-                #if data errors, break
-                if not data:
-                    break
-                #print the data recieved and send it back out
-                print(f"[LAN SERVER] Recieved from {address}: {data.decode()}")
-                connection.sendall(data)
+        #error handling for unexpected crashes
+        try:
+            #begins to take data
+            with connection:
+                while True:
+                    #takes data
+                    data = connection.recv(1024)
+                    #if data errors, break
+                    if not data:
+                        break
+                    #print the data recieved and send it back out
+                    print(f"[LAN SERVER] Recieved from {address}: {data.decode()}")
+                    connection.sendall(data)
+        #checking for an abrupt connection
+        except (ConnectionResetError, BrokenPipeError):
+            print(f"[LAN SERVER] {address} disconnected unexpectedly.")
+        #checking for an exception error
+        except Exception as ex:
+            print(f"[LAN SERVER] Error with {address}: {ex}")
+        #close the connection
+        finally:
+            connection.close()
+            print(f"[LAN SERVER] Closed connection with {address}")
 
 
     
