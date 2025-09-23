@@ -20,40 +20,52 @@ class lanClient:
 
     #main function to start the clientside
     def start(self):
-        #connect to the server
-        self.client_socket.connect((self.server_host,self.server_port))
-        print(f"[LAN CLIENT] Connected to server at {self.server_host}:{self.server_port}")
-        #quick statement for clients
-        print("\nType \"cmds\" for a list of commands.")
-        #try to prevent errors
         try:
-            #where the magic happens
-            while True:
-                #prompt for a message
-                message = input("Enter a message or command: ")
-                #case statments to recognize commands
-                match message.lower():
-                    #prints a list of commands
-                    case "cmds":
-                        print("\ncmds || Show Commands")
-                        print("quit || Close the client\n")
-                    #quits the client
-                    case "quit":
-                        break
-                    #basically an else statement for cases
-                    case _:
-                        #send a message to the server
-                        self.client_socket.sendall(message.encode())
-                        print("[LAN CLIENT] Message Sent")
-                        #wait for a response
-                        response = self.client_socket.recv(1024)
-                        print(f"[LAN CLIENT] Received: {response.decode()}")
-        except Exception as e:
-            print(f"[LAN CLIENT] Connection failed: {e}")
-        #when the code breaks, it shuts down the socket
-        finally:
-            self.client_socket.close()
-            print("[LAN CLIENT] Disconnected")
+            #connect to the server
+            self.client_socket.connect((self.server_host,self.server_port))
+            print(f"[LAN CLIENT] Connected to server at {self.server_host}:{self.server_port}")
+            #quick statement for clients
+            print("\nType \"cmds\" for a list of commands.")
+            #try to prevent errors
+            try:
+                #where the magic happens
+                while True:
+                    #prompt for a message
+                    message = input("Enter a message or command: ")
+                    #case statments to recognize commands
+                    match message.lower():
+                        #prints a list of commands
+                        case "cmds":
+                            print("\ncmds || Show Commands")
+                            print("quit || Close the client\n")
+                        #quits the client
+                        case "quit":
+                            break
+                        #basically an else statement for cases
+                        case _:
+                            #send a message to the server
+                            self.client_socket.sendall(message.encode())
+                            print("[LAN CLIENT] Message Sent")
+                            #wait for a response
+                            response = self.client_socket.recv(1024)
+                            print(f"[LAN CLIENT] Received: {response.decode()}")
+            except Exception as e:
+                print(f"[LAN CLIENT] Connection failed: {e}")
+            #when the code breaks, it shuts down the socket
+            finally:
+                self.client_socket.close()
+                print("[LAN CLIENT] Disconnected")
+        #if there is a timeout error, retry
+        except TimeoutError:
+            print(f"[LAN CLIENT] Connection Timed Out")
+            lanClient.__init__(self)
+            lanClient.start(self)
+        #if the address is entered improperly, retry
+        except socket.gaierror:
+            print(f"[LAN CLIENT] IP entered incorrectly")
+            lanClient.__init__(self)
+            lanClient.start(self)
+
 
 
 
