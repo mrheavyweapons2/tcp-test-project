@@ -9,10 +9,10 @@ TCP handshake. However, to prevent unauthorized entry, it is password protected.
 #neccessary imports
 import socket
 import threading
-import requests
+import urllib.request
 
 #class that serves as the core piece of the server
-class lanServer:
+class wanServer:
     #constructor
     def __init__(self, host=None, port=7621):
         #uses a helper function to get the hosts public IP
@@ -27,12 +27,14 @@ class lanServer:
     #gets the users public ip from a website that provides our public IP if we make a connection
     def get_public_ip(self):
         try:
-            response = requests.get("https://api.ipify.org?format=text", timeout=5)
-            return response.text
+            #sends a request to a website which returns our public ip
+            with urllib.request.urlopen("https://api.ipify.org") as response:
+                #return the IP
+                return response.read().decode("utf-8")
         #error checking for an exception
         except Exception as e:
             print(f"[WAN SERVER] Error fetching public IP: {e}")
-            return None  
+            return None
     
     #function for handling client operations
     def client_handler(self, connection, address):
