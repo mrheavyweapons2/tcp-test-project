@@ -49,9 +49,6 @@ def import_role():
         print("Success, Beginning Server Setup on WAN\n")
         mod = importlib.import_module("server.server")
         module = mod.server(False)
-        #print a warning since WAN is difficult to replicate
-        print("WARNING: WAN SERVERS ARE CURRENTLY UNTESTED, DUE TO THERE BEING NO WAY")
-        print("\tFOR ME TO TEST PORT FORWARD AT THIS POINT, YOU HAVE BEEN WARNED\n")
     elif role == 3:
         print("Success, Beginning Client Setup\n")
         mod = importlib.import_module("client.client")
