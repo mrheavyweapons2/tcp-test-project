@@ -44,12 +44,12 @@ def import_role():
     #if statement options
     if role == 1:
         print("Success, Beginning Server Setup on LAN\n")
-        mod = importlib.import_module("server.lan")
-        module = mod.lanServer()
+        mod = importlib.import_module("server.server")
+        module = mod.server(True)
     elif role == 2:
         print("Success, Beginning Server Setup on WAN\n")
-        mod = importlib.import_module("server.wan")
-        module = mod.wanServer()
+        mod = importlib.import_module("server.server")
+        module = mod.server(False)
     elif role == 3:
         print("Success, Beginning Client Setup on LAN\n")
         mod = importlib.import_module("client.lan")

@@ -12,11 +12,14 @@ import threading
 import urllib.request
 
 #class that serves as the core piece of the server
-class wanServer:
+class server:
     #constructor
-    def __init__(self, host=None, port=7621):
-        #uses a helper function to get the hosts public IP
-        self.host = host or self.get_public_ip()
+    def __init__(self, local, host=None, port=7621):
+        #checks to see if you want to run a lan or wan server via local
+        if local == True:
+            self.host = host or self.get_local_ip()
+        else:
+            self.host = host or self.get_public_ip()
         #assigns a hardcoded port that i might make customizable later
         self.port = port
         #declares the server socket to run on IPV4 and TCP.
@@ -33,13 +36,28 @@ class wanServer:
                 return response.read().decode("utf-8")
         #error checking for an exception
         except Exception as e:
-            print(f"[WAN SERVER] Error fetching public IP: {e}")
+            print(f"[SERVER] Error fetching public IP: {e}")
             return None
+    
+    #gets the local ip by using a dummy connection to google
+    def get_local_ip(self):
+        #create a dummy IPV4 socket on UDP
+        dummy = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        try:
+            #"connect" our dummy socket to the google DNS server
+            dummy.connect(("8.8.8.8", 80))
+            #get the computers IP from the communication
+            ip = dummy.getsockname()[0]
+        finally:
+            #close the socket
+            dummy.close()
+        #return the IP
+        return ip
     
     #function for handling client operations
     def client_handler(self, connection, address):
         #informs the server of the connection
-        print(f"[WAN SERVER] Connection detected from {address}")
+        print(f"[SERVER] Connection detected from {address}")
         #error handling for unexpected crashes
         try:
             #begins to take data
@@ -51,18 +69,18 @@ class wanServer:
                     if not data:
                         break
                     #print the data recieved and send it back out
-                    print(f"[WAN SERVER] Recieved from {address}: {data.decode()}")
+                    print(f"[SERVER] Recieved from {address}: {data.decode()}")
                     connection.sendall(data)
         #checking for an abrupt connection
         except (ConnectionResetError, BrokenPipeError):
-            print(f"[WAN SERVER] {address} disconnected unexpectedly.")
+            print(f"[SERVER] {address} disconnected unexpectedly.")
         #checking for an exception error
         except Exception as ex:
-            print(f"[WAN SERVER] Error with {address}: {ex}")
+            print(f"[SERVER] Error with {address}: {ex}")
         #close the connection
         finally:
             connection.close()
-            print(f"[WAN SERVER] Closed connection with {address}")
+            print(f"[SERVER] Closed connection with {address}")
 
 
     
@@ -71,14 +89,14 @@ class wanServer:
         #setting the server to listen into the server (and not another server)
         self.server_socket.bind(("0.0.0.0", self.port))
         self.server_socket.listen()
-        print(f"[WAN SERVER] Listening on {self.host}:{self.port}")
+        print(f"[SERVER] Listening on {self.host}:{self.port}")
         #while true loop for the server to run on
         while True:
             #detecting connections from clients and starting a thread for them
-            print(f"[WAN SERVER] Waiting for connection...")
+            print(f"[SERVER] Waiting for connection...")
             connection, address = self.server_socket.accept()
-            print(f"[WAN SERVER] Connection accepted from {address}")
+            print(f"[SERVER] Connection accepted from {address}")
             client_line = threading.Thread(target=self.client_handler, args=(connection, address))
             client_line.start()
-            print(f"[WAN SERVER] Started client thread for {address}")
+            print(f"[SERVER] Started client thread for {address}")
         
