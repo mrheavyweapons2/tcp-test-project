@@ -37,7 +37,7 @@ class client:
                         #prints a list of commands
                         case "cmds":
                             print("\ncmds || Show Commands")
-                            print("quit || Close the client\n")
+                            print("quit || Close the Client\n")
                         #quits the client
                         case "quit":
                             break
