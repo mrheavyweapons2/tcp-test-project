@@ -9,11 +9,11 @@ Description: (fill in later)
 import socket
 
 #class that handles the client
-class lanClient:
+class client:
     #constructor
     def __init__(self, server_host=None, server_port=7621):
         #find the hosts IP and place it here
-        self.server_host = server_host or input("\nPlease enter the hosts 10.x.x.x IPV4 address: ")
+        self.server_host = server_host or input("\nPlease enter the hosts x.x.x.x IPV4 address: ")
         self.server_port = server_port
         #declares the client socket to communicate using IPV4 and TCP
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,7 +23,7 @@ class lanClient:
         try:
             #connect to the server
             self.client_socket.connect((self.server_host,self.server_port))
-            print(f"[LAN CLIENT] Connected to server at {self.server_host}:{self.server_port}")
+            print(f"[CLIENT] Connected to server at {self.server_host}:{self.server_port}")
             #quick statement for clients
             print("\nType \"cmds\" for a list of commands.")
             #try to prevent errors
@@ -45,26 +45,26 @@ class lanClient:
                         case _:
                             #send a message to the server
                             self.client_socket.sendall(message.encode())
-                            print("[LAN CLIENT] Message Sent")
+                            print("[CLIENT] Message Sent")
                             #wait for a response
                             response = self.client_socket.recv(1024)
-                            print(f"[LAN CLIENT] Received: {response.decode()}")
+                            print(f"[CLIENT] Received: {response.decode()}")
             except Exception as e:
-                print(f"[LAN CLIENT] Connection failed: {e}")
+                print(f"[CLIENT] Connection failed: {e}")
             #when the code breaks, it shuts down the socket
             finally:
                 self.client_socket.close()
-                print("[LAN CLIENT] Disconnected")
+                print("[CLIENT] Disconnected")
         #if there is a timeout error, retry
         except TimeoutError:
-            print(f"[LAN CLIENT] Connection Timed Out")
-            lanClient.__init__(self)
-            lanClient.start(self)
+            print(f"[CLIENT] Connection Timed Out")
+            client.__init__(self)
+            client.start(self)
         #if the address is entered improperly, retry
         except socket.gaierror:
-            print(f"[LAN CLIENT] IP entered incorrectly")
-            lanClient.__init__(self)
-            lanClient.start(self)
+            print(f"[CLIENT] IP entered incorrectly")
+            client.__init__(self)
+            client.start(self)
 
 
 

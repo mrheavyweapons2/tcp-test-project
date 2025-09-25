@@ -23,8 +23,7 @@ def import_role():
     print("\nPlease select one of the following options.\n")
     print("\t1. Server Host on a Local Area Network")
     print("\t2. Server Host on a Wide Area Network")
-    print("\t3. Run a Client on a Local Area Network")
-    print("\t4. Run a Client on a Wide Area Network")
+    print("\t3. Run a Client on Either")
     #prompt the user
     role = input("\n Options (1-4): ")
     #try-except error handle for the role input
@@ -36,7 +35,7 @@ def import_role():
         import_role()
         return
     #if check to make sure the int is working
-    if (((role >= 1) and (role <=4)) == False):
+    if (((role >= 1) and (role <=3)) == False):
         print("Failure, please try again.")
         import_role()
         return
@@ -52,12 +51,8 @@ def import_role():
         module = mod.server(False)
     elif role == 3:
         print("Success, Beginning Client Setup on LAN\n")
-        mod = importlib.import_module("client.lan")
-        module = mod.lanClient()
-    elif role == 4:
-        print("Failure, this feature is currently unavailable")
-        #print("Success, Beginning Client Setup on WAN\n")
-        #mod = importlib.import_module("client.wan")
+        mod = importlib.import_module("client.client")
+        module = mod.client()
     #return to main
     return
 
