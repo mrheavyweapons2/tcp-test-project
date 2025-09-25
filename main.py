@@ -23,7 +23,7 @@ def import_role():
     print("\nPlease select one of the following options.\n")
     print("\t1. Server Host on a Local Area Network")
     print("\t2. Server Host on a Wide Area Network")
-    print("\t3. Run a Client on Either")
+    print("\t3. Run a Default Client")
     #prompt the user
     role = input("\n Options (1-4): ")
     #try-except error handle for the role input
@@ -49,8 +49,11 @@ def import_role():
         print("Success, Beginning Server Setup on WAN\n")
         mod = importlib.import_module("server.server")
         module = mod.server(False)
+        #print a warning since WAN is difficult to replicate
+        print("WARNING: WAN SERVERS ARE CURRENTLY UNTESTED, DUE TO THERE BEING NO WAY")
+        print("\tFOR ME TO TEST PORT FORWARD AT THIS POINT, YOU HAVE BEEN WARNED\n")
     elif role == 3:
-        print("Success, Beginning Client Setup on LAN\n")
+        print("Success, Beginning Client Setup\n")
         mod = importlib.import_module("client.client")
         module = mod.client()
     #return to main

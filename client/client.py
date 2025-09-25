@@ -45,10 +45,9 @@ class client:
                         case _:
                             #send a message to the server
                             self.client_socket.sendall(message.encode())
-                            print("[CLIENT] Message Sent")
                             #wait for a response
                             response = self.client_socket.recv(1024)
-                            print(f"[CLIENT] Received: {response.decode()}")
+                            print(f"Received: {response.decode()}")
             except Exception as e:
                 print(f"[CLIENT] Connection failed: {e}")
             #when the code breaks, it shuts down the socket
