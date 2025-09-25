@@ -25,7 +25,7 @@ def import_role():
     print("\t2. Server Host on a Wide Area Network")
     print("\t3. Run a Default Client")
     #prompt the user
-    role = input("\n Options (1-4): ")
+    role = input("\n Options (1-3): ")
     #try-except error handle for the role input
     try:
         role = int(role)
