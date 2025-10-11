@@ -54,6 +54,8 @@ class server:
         #return the IP
         return ip
     
+
+    
     #function for handling client operations
     def client_handler(self, connection, address):
         #informs the server of the connection
@@ -65,10 +67,11 @@ class server:
                 while True:
                     #takes data
                     data = connection.recv(1024)
-                    #if data errors, break
+                    #if data errors, break the loop
                     if not data:
                         break
-                    #print the data recieved and send it back out
+                    #take the data recieved and send it to the data handler, and send it back as confirmation
+                    #will do later
                     print(f"[SERVER] Recieved from {address}: {data.decode()}")
                     connection.sendall(data)
         #checking for an abrupt connection
